@@ -19,7 +19,7 @@ mvp-rails-blueprint/
 ├── src/                         # React MVP code lives here
 ├── docs/                        # Rails conceptual mapping
 │   ├── context.md               # Guidelines and system instructions
-│   ├── react_to_rails_prompt.md # Template: React to Rails mapping
+│   ├── react_to_rails_template.md # Template: React to Rails mapping
 │   ├── rails_directory_mapping_template.md # Template: Rails structure mapping
 │   ├── requirements.md          # MVP product ideation and notes
 │   ├── schema.json              # Centralized content + structure model
