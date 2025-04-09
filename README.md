@@ -35,3 +35,72 @@ mvp-rails-blueprint/
 ├── .gitignore
 ├── README.md
 ├── LICENSE
+```
+
+---
+
+## 🛠️ How to Use
+
+1. **Build in Lovable.dev or V0.dev**
+   - Start your MVP visually.
+   - Use Rails-inspired naming where possible (e.g., `PostCard`, `UserSettingsForm`).
+
+2. **Document the Rails-side mapping**
+   - For each new React component, document its Rails/Phlex equivalent under `docs/rails_structure/views.md`.
+   - If the component uses data, consider its future `model` and `controller` in Rails, and document that too.
+
+3. **Use schema.json**
+   - All structured content (routes, sections, data) must go into `schema.json`.
+   - It is the single source of truth until a backend like Supabase is added.
+
+4. **Update Docs Automatically**
+   - Every time content or structure changes in your MVP, reflect it in `docs/schema.json` and Rails docs.
+   - Keep this repo clean and ready to transition to full Rails implementation.
+
+---
+
+## 🧠 Best Practices
+
+- Favor components and naming that will map easily to Rails concepts.
+- Think in terms of MVC even in your React prototype.
+- Use Stimulus-style behavior where interactions are required, and log conceptual controller logic.
+- Focus on **maintainability** and **clarity**—this project is your stepping stone to a Rails codebase.
+
+---
+
+## 📚 License
+
+MIT
+
+---
+
+## 🛠️ How to Use
+
+### Build in Lovable.dev or V0.dev
+- Start your MVP visually using a component builder.
+- Use Rails-inspired naming conventions where possible (e.g., `PostCard`, `UserSettingsForm`).
+
+### Document the Rails-Side Mapping
+- For each new React component, create a corresponding conceptual entry under:
+  - `docs/rails_structure/views.md` for UI
+  - `docs/rails_structure/models.md` for data structure
+  - `docs/rails_structure/controllers.md` for control logic
+
+### Use `schema.json` as Your Content Source
+- Define all structured content (routes, layout sections, data structures) inside `schema.json`.
+- This file is the **single source of truth** for content and structure until Supabase or another backend is added.
+
+### Keep Docs Updated Automatically
+- Whenever content or logic changes in the MVP:
+  - Update `docs/schema.json`
+  - Update conceptual Rails files in `docs/rails_structure/`
+
+---
+
+## 🧠 Best Practices
+
+- Favor components and naming that will cleanly map to Rails MVC patterns.
+- Think in terms of MVC even during the MVP phase.
+- Use Stimulus-style behavior when interactions are needed and document logic for future controllers.
+- Focus on **clarity**, **structure**, and **maintainability**—this is your MVP-to-Rails conversion map.
+
