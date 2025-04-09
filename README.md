@@ -59,21 +59,6 @@ mvp-rails-blueprint/
 
 ---
 
-## 🧠 Best Practices
-
-- Favor components and naming that will map easily to Rails concepts.
-- Think in terms of MVC even in your React prototype.
-- Use Stimulus-style behavior where interactions are required, and log conceptual controller logic.
-- Focus on **maintainability** and **clarity**—this project is your stepping stone to a Rails codebase.
-
----
-
-## 📚 License
-
-MIT
-
----
-
 ## 🛠️ How to Use
 
 ### Build in Lovable.dev or V0.dev
