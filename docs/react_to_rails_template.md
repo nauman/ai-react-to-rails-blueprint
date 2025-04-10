@@ -2,7 +2,7 @@
 
 **Purpose:** This document provides a structured approach for lovable.dev to translate and map React single-page applications (SPAs) effectively into a Ruby on Rails application using Phlex components (via RubyUI) and Hotwire for dynamic, interactive user experiences. The goal is to clearly document component structures, data flows, and state management strategies, enabling efficient and accurate Rails implementations.
 
-Please create this document as `docs/react_to_rails_template.md` in the root folder. Additionally, continually update and maintain a separate, practical document as `docs/react_to_rails.md` based on this template for specific React SPA to Rails mappings.
+Please create this document as `docs/react_to_rails_prompt.md` in the root folder. Additionally, continually update and maintain a separate, practical document as `docs/react_to_rails.md` based on this template for specific React SPA to Rails mappings.
 
 ## Expected Outcome:
 
@@ -37,7 +37,7 @@ For each major React component:
 
 **3. Data Flow and State Management:**
 
-- **3.1. Overall Data Flow:** (Clarify data movement clearly; diagrams helpful.)
+- **3.1. Overall Data Flow:** (Clarify data movement clearly; diagrams strongly recommended.)
 - **3.2. Key Data Entities and Lifecycle:** (Detail lifecycle stages of critical data clearly.)
 - **3.3. State Management Implementation:** (Clearly explain state management method.)
 - **3.4. How Data is Passed to Components:** (Clearly describe data propagation methods.)
@@ -55,7 +55,7 @@ For each major React component:
 
 **5. Database Schema (if applicable):**
 
-- **5.1. Existing Database Schema:** (Clearly describe current database structure.)
+- **5.1. Existing Database Schema:** (Clearly describe current database structure; ERD diagrams strongly recommended.)
 - **5.2. Proposed Rails Database Schema:** (Suggest clear and concise Rails-compatible schema.)
 - **5.3. Potential Rails Migrations:** (Provide clear examples of necessary migrations.)
 
@@ -72,4 +72,41 @@ For each major React component:
 - **7.3. Server-Side Data Handling:** (Clearly outline data handling methods.)
 - **7.4. Form Handling in Rails:** (Clearly detail form handling and interactions.)
 - **7.5. State Management in Rails/Hotwire:** (Clearly describe Rails state management approaches.)
+
+## Diagramming Guidance
+
+To enhance clarity and aid Rails migration, use text-based diagrams where possible. Prioritize Mermaid.js and plain-text before using image formats.
+
+Preferred formats (in order):
+1. **Mermaid.js**
+2. **Plain-text diagrams**
+3. **PNG/SVG** (only if visualization cannot be expressed in code)
+
+Store diagrams in the following subdirectories under `docs/diagrams/`:
+
+- `docs/diagrams/architecture/` – Component-to-Rails system mapping
+- `docs/diagrams/sequences/` – User interaction and state flow diagrams
+- `docs/diagrams/database/` – ERD or domain model diagrams
+
+To embed diagrams in documentation:
+```markdown
+![Description](../diagrams/<type>/<diagram-name>.svg)
+```
+
+Include visual diagrams to clarify interactions or data flows:
+
+- **High-Level Architecture Diagrams:** Clearly map React components to their Rails/Phlex counterparts.
+- **Sequence Diagrams:** Illustrate user interactions, API requests, state updates, and component responses.
+- **Database and Domain Diagrams:** Use Entity-Relationship (ERD) diagrams to depict database structures clearly.
+
+## Glossary
+
+| Term           | Meaning                                                |
+|----------------|--------------------------------------------------------|
+| **Phlex**      | Ruby DSL for creating HTML components                  |
+| **Hotwire**    | Rails library for dynamic partial page updates         |
+| **Stimulus**   | JavaScript controller framework within Hotwire         |
+| **Turbo Frame**| Container for dynamically updating HTML fragments      |
+| **Turbo Stream**| Server-driven DOM updates via WebSockets or HTTP      |
+| **ERD**        | Entity-Relationship Diagram                            |
 
