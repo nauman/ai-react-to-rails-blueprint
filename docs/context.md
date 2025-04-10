@@ -14,8 +14,12 @@ Please consistently maintain the following clear and organized documentation str
 
 ```bash
 docs/
+├── diagrams/                            # Visual diagrams (prefer Mermaid, fallback PNG/SVG)
+│   ├── architecture/                    # High-level architecture diagrams
+│   ├── sequences/                       # Interaction flow diagrams
+│   └── database/                        # ERD and domain models
 ├── context.md                           # This document
-├── react_to_rails_template.md             # Template: React to Rails mapping
+├── react_to_rails_prompt.md             # Template: React to Rails mapping
 ├── rails_directory_mapping_template.md  # Template: Rails directory mapping
 ├── requirements.md                      # Initial product ideation and requirements
 ├── schema.json                          # Central schema: routes, content, and data structure
@@ -83,7 +87,7 @@ For each documentation task:
 ## Template Management
 
 - **Do not overwrite** the following templates unless explicitly directed:
-  - `docs/react_to_rails_template.md`
+  - `docs/react_to_rails_prompt.md`
   - `docs/rails_directory_mapping_template.md`
 
 ---
@@ -95,4 +99,3 @@ Following these guidelines will enable lovable.dev to:
 - Maintain structured, clear, and comprehensive documentation.
 - Facilitate smooth transitions from React MVP prototypes to fully developed Rails applications.
 - Support effective development practices and collaborative workflows with detailed, practical documentation.
-
