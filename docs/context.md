@@ -18,6 +18,9 @@ docs/
 │   ├── architecture/                    # High-level architecture diagrams
 │   ├── sequences/                       # Interaction flow diagrams
 │   └── database/                        # ERD and domain models
+├── images/                              # Markdown image assets
+│   └── urls.md                          # External image URL registry
+├── icons/                               # Inline or reusable SVG icon files
 ├── context.md                           # This document
 ├── react_to_rails_prompt.md             # Template: React to Rails mapping
 ├── rails_directory_mapping_template.md  # Template: Rails directory mapping
@@ -99,3 +102,4 @@ Following these guidelines will enable lovable.dev to:
 - Maintain structured, clear, and comprehensive documentation.
 - Facilitate smooth transitions from React MVP prototypes to fully developed Rails applications.
 - Support effective development practices and collaborative workflows with detailed, practical documentation.
+
