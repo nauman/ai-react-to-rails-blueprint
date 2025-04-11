@@ -89,3 +89,33 @@ mvp-rails-blueprint/
 - Use Stimulus-style behavior when interactions are needed and document logic for future controllers.
 - Focus on **clarity**, **structure**, and **maintainability**—this is your MVP-to-Rails conversion map.
 
+---
+
+## Results from lovable.dev
+This is how lovable.dev produced the docs based on input context and templates
+
+![image](https://github.com/user-attachments/assets/7e64070f-067e-418d-aa59-2229e541c0c3)
+
+### Example of produced sequence diagram:
+
+```mermaid
+sequenceDiagram
+    participant User
+    participant MetaTagForm
+    participant TitleField
+    participant ValidationSystem
+    participant MetaTagPreview
+    participant CodeSnippet
+    
+    User->>MetaTagForm: Edit Title Field
+    MetaTagForm->>TitleField: Pass updated value
+    TitleField->>TitleField: Update local state
+    TitleField->>ValidationSystem: Check title length (10-60 chars)
+    ValidationSystem-->>TitleField: Return validation result
+    TitleField-->>User: Show validation feedback
+    TitleField->>MetaTagForm: Propagate change event
+    MetaTagForm->>MetaTagPreview: Update with new title
+    MetaTagPreview-->>User: Show updated preview
+    MetaTagForm->>CodeSnippet: Update with new title
+    CodeSnippet-->>User: Show updated HTML code
+```
