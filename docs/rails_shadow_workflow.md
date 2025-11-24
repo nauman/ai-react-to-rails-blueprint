@@ -31,6 +31,7 @@ Use this checklist to keep a Rails-ready shadow app in sync while building the R
   - Add acts-as-taggable-on scopes to models when tags are present in `schema.json`.
   - Emit Minitest skeletons for controller and view.
 - Run the generator whenever you add a React view to keep parity automatic.
+- A starter generator lives at `scripts/generate_rails_components.js` (see `docs/rails_component_generator.md`).
 
 ## 5) Testing Defaults
 - Require Minitest coverage for:
