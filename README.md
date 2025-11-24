@@ -96,3 +96,14 @@ sequenceDiagram
     MetaTagForm->>CodeSnippet: Update with new title
     CodeSnippet-->>User: Show updated HTML code
 ```
+
+## Rails Shadow Generator
+
+Keep the Rails shadow in sync while building the React/Next MVP:
+
+- All components: `node scripts/generate_rails_components.js --all`
+- One component: `node scripts/generate_rails_components.js --component=Name`
+- Models only: `node scripts/generate_rails_components.js --models-only`
+- Preview only: add `--dry-run`
+
+Details: `docs/rails_component_generator.md`.
