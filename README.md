@@ -59,29 +59,6 @@ mvp-rails-blueprint/
 
 ---
 
-## 🛠️ How to Use
-
-### Build in Lovable.dev or V0.dev
-- Start your MVP visually using a component builder.
-- Use Rails-inspired naming conventions where possible (e.g., `PostCard`, `UserSettingsForm`).
-
-### Document the Rails-Side Mapping
-- For each new React component, create a corresponding conceptual entry under:
-  - `docs/rails_structure/views.md` for UI
-  - `docs/rails_structure/models.md` for data structure
-  - `docs/rails_structure/controllers.md` for control logic
-
-### Use `schema.json` as Your Content Source
-- Define all structured content (routes, layout sections, data structures) inside `schema.json`.
-- This file is the **single source of truth** for content and structure until Supabase or another backend is added.
-
-### Keep Docs Updated Automatically
-- Whenever content or logic changes in the MVP:
-  - Update `docs/schema.json`
-  - Update conceptual Rails files in `docs/rails_structure/`
-
----
-
 ## 🧠 Best Practices
 
 - Favor components and naming that will cleanly map to Rails MVC patterns.

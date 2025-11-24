@@ -104,32 +104,6 @@ Include visual diagrams to clarify interactions or data flows:
 - **Sequence Diagrams:** Illustrate user interactions, API requests, state updates, and component responses.
 - **Database and Domain Diagrams:** Use Entity-Relationship (ERD) diagrams to depict database structures clearly.
 
-To enhance clarity and aid Rails migration, use text-based diagrams where possible. Prioritize Mermaid.js and plain-text before using image formats.
-
-Preferred formats (in order):
-
-1. **Mermaid.js**
-2. **Plain-text diagrams**
-3. **PNG/SVG** (only if visualization cannot be expressed in code)
-
-Store diagrams in the following subdirectories under `docs/diagrams/`:
-
-- `docs/diagrams/architecture/` – Component-to-Rails system mapping
-- `docs/diagrams/sequences/` – User interaction and state flow diagrams
-- `docs/diagrams/database/` – ERD or domain model diagrams
-
-To embed diagrams in documentation:
-
-```markdown
-![Description](../diagrams/<type>/<diagram-name>.svg)
-```
-
-Include visual diagrams to clarify interactions or data flows:
-
-- **High-Level Architecture Diagrams:** Clearly map React components to their Rails/Phlex counterparts.
-- **Sequence Diagrams:** Illustrate user interactions, API requests, state updates, and component responses.
-- **Database and Domain Diagrams:** Use Entity-Relationship (ERD) diagrams to depict database structures clearly.
-
 ## Glossary
 
 | Term             | Meaning                                           |
@@ -140,4 +114,3 @@ Include visual diagrams to clarify interactions or data flows:
 | **Turbo Frame**  | Container for dynamically updating HTML fragments |
 | **Turbo Stream** | Server-driven DOM updates via WebSockets or HTTP  |
 | **ERD**          | Entity-Relationship Diagram                       |
-
