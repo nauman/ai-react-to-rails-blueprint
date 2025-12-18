@@ -4,10 +4,16 @@
  * Rails Component Generator (tool-agnostic)
  *
  * Converts React/Next TypeScript components into Rails shadow artifacts:
- * - Phlex (RubyUI) components
+ * - ViewComponent classes with ERB templates (custom components)
+ * - BEM-structured CSS files (ITCSS components layer)
  * - Stimulus controllers
  * - ActiveRecord models inferred from TS interfaces
  * - Optional doc entries to keep React↔Rails mappings in sync
+ *
+ * Architecture:
+ * - ViewComponent + ERB for custom application components
+ * - RubyUI (Phlex) for pre-built UI primitives (used within ViewComponents)
+ * - ITCSS + BEM + Tailwind for CSS architecture
  *
  * Usage:
  *   node scripts/generate_rails_components.js --all
@@ -31,30 +37,100 @@ const CONFIG = {
     components: path.join(ROOT, 'src/components/app'),
     types: path.join(ROOT, 'src/types/index.ts'),
     templates: path.join(__dirname, 'templates'),
-    output: path.join(ROOT, 'rails_generated'),
+    output: {
+      base: path.join(ROOT, 'rails_generated'),
+      components: path.join(ROOT, 'rails_generated/app/components'),
+      stylesheets: path.join(ROOT, 'rails_generated/app/assets/stylesheets'),
+      stimulus: path.join(ROOT, 'rails_generated/app/javascript/controllers'),
+      models: path.join(ROOT, 'rails_generated/app/models')
+    },
     docs: path.join(ROOT, 'docs'),
     mappingLog: path.join(ROOT, 'docs/react_to_rails.md')
   },
   templates: {
-    phlex: 'phlex_component.rb.template',
+    viewComponent: 'view_component.rb.template',
+    viewComponentErb: 'view_component.html.erb.template',
+    viewComponentCss: 'view_component.css.template',
     stimulus: 'stimulus_controller.js.template',
     model: 'model.rb.template'
   }
 };
 
 const FALLBACK_TEMPLATES = {
-  phlex: `# {{react_file_path}}
-module Views::App
-  class {{component_name}} < ApplicationView
-    def initialize({{props}})
-      {{prop_assignments}}
-    end
+  viewComponent: `# frozen_string_literal: true
+# Source: {{react_file_path}}
 
-    def view_template
-      {{html_structure}}
-    end
+class {{component_name}}Component < ApplicationComponent
+  {{prop_attrs}}
+
+  def initialize({{props}})
+    {{prop_assignments}}
   end
+
+  # BEM helper for this component
+  def block_class
+    "{{bem_block}}"
+  end
+
+  # Suggested RubyUI components to consider:
+  # - RubyUI::Button for actions
+  # - RubyUI::Card for containers
+  # - RubyUI::Badge for tags/status
+  # - RubyUI::Avatar for user images
+  # - RubyUI::Input, RubyUI::Select for form controls
+  #
+  # Example usage in ERB template:
+  # <%= render RubyUI::Button.new(variant: :primary) { "Click me" } %>
 end
+`,
+  viewComponentErb: `<%# Source: {{react_file_path}} %>
+<%# BEM Block: {{bem_block}} %>
+
+<div class="{{bem_block}}" data-controller="{{stimulus_controller}}">
+  <%#
+    TODO: Convert React JSX to ERB
+
+    RubyUI components available:
+    - <%= render RubyUI::Button.new(variant: :primary) { "Action" } %>
+    - <%= render RubyUI::Card.new { ... } %>
+    - <%= render RubyUI::Badge.new { "Status" } %>
+    - <%= render RubyUI::Avatar.new(src: url, alt: name) %>
+
+    Use BEM naming for custom elements:
+    - {{bem_block}}__header
+    - {{bem_block}}__content
+    - {{bem_block}}__footer
+    - {{bem_block}}--modifier
+  %>
+
+  {{html_structure}}
+</div>
+`,
+  viewComponentCss: `/* Source: {{react_file_path}} */
+/* ITCSS Layer: components */
+/* BEM Block: {{bem_block}} */
+
+.{{bem_block}} {
+  /* Block base styles */
+  /* Use Tailwind for spacing/colors, BEM for structure */
+}
+
+/* Elements */
+.{{bem_block}}__header {
+}
+
+.{{bem_block}}__content {
+}
+
+.{{bem_block}}__footer {
+}
+
+/* Modifiers */
+.{{bem_block}}--active {
+}
+
+.{{bem_block}}--disabled {
+}
 `,
   stimulus: `// {{react_file_path}}
 import { Controller } from "@hotwired/stimulus"
@@ -297,24 +373,60 @@ class ComponentAnalyzer {
 }
 
 // -----------------------------------------------------------------------------
-// Phlex Generator
+// ViewComponent Generator
 // -----------------------------------------------------------------------------
 
-class PhlexGenerator {
-  constructor(analysis, template) {
+class ViewComponentGenerator {
+  constructor(analysis, rbTemplate, erbTemplate, cssTemplate) {
     this.analysis = analysis;
-    this.template = template;
+    this.rbTemplate = rbTemplate;
+    this.erbTemplate = erbTemplate;
+    this.cssTemplate = cssTemplate;
   }
 
   async generate() {
-    return this.template
+    const bemBlock = toKebabCase(this.analysis.name);
+    const stimulusController = toKebabCase(this.analysis.name);
+
+    return {
+      rb: this.generateRb(bemBlock),
+      erb: this.generateErb(bemBlock, stimulusController),
+      css: this.generateCss(bemBlock)
+    };
+  }
+
+  generateRb(bemBlock) {
+    return this.rbTemplate
       .replace(/{{component_name}}/g, this.analysis.name)
       .replace(/{{props}}/g, this.generatePropsSignature())
+      .replace(/{{prop_attrs}}/g, this.generatePropAttrs())
       .replace(/{{prop_assignments}}/g, this.generatePropAssignments())
+      .replace(/{{bem_block}}/g, bemBlock)
+      .replace(/{{react_file_path}}/g, this.analysis.filePath || 'unknown')
+      .replace(/{{timestamp}}/g, new Date().toISOString());
+  }
+
+  generateErb(bemBlock, stimulusController) {
+    return this.erbTemplate
+      .replace(/{{bem_block}}/g, bemBlock)
+      .replace(/{{stimulus_controller}}/g, stimulusController)
       .replace(/{{html_structure}}/g, this.generateHtmlStructure())
       .replace(/{{react_file_path}}/g, this.analysis.filePath || 'unknown')
-      .replace(/{{timestamp}}/g, new Date().toISOString())
-      .replace(/{{helper_methods}}/g, this.generateHelperMethods());
+      .replace(/{{timestamp}}/g, new Date().toISOString());
+  }
+
+  generateCss(bemBlock) {
+    return this.cssTemplate
+      .replace(/{{bem_block}}/g, bemBlock)
+      .replace(/{{react_file_path}}/g, this.analysis.filePath || 'unknown')
+      .replace(/{{timestamp}}/g, new Date().toISOString());
+  }
+
+  generatePropAttrs() {
+    if (!this.analysis.props.length) return '# No props';
+    return this.analysis.props
+      .map(p => `attr_reader :${p.name}`)
+      .join('\n  ');
   }
 
   generatePropsSignature() {
@@ -326,17 +438,15 @@ class PhlexGenerator {
 
   generatePropAssignments() {
     if (!this.analysis.props.length) return '# no props detected';
-    return this.analysis.props.map(p => `@${p.name} = ${p.name}`).join('\n      ');
+    return this.analysis.props.map(p => `@${p.name} = ${p.name}`).join('\n    ');
   }
 
   generateHtmlStructure() {
-    return `div(class: "component-${toKebabCase(this.analysis.name)}") do
-        # TODO: Convert JSX structure to Phlex (source: ${this.analysis.name})
-      end`;
-  }
-
-  generateHelperMethods() {
-    return '# add helper methods as needed';
+    // Generate ERB-friendly structure hints
+    const childHints = this.analysis.childComponents
+      .map(c => `<%# Child: ${c} %>`)
+      .join('\n  ');
+    return childHints || '<%# Add component content here %>';
   }
 }
 
@@ -628,18 +738,24 @@ class CLI {
     console.log(`  - Handlers: ${analysis.handlers.length}`);
     console.log(`  - Custom hooks: ${analysis.hooks.length}\n`);
 
-    const phlexTemplate = await loadTemplate(CONFIG.templates.phlex, 'phlex');
-    const phlexGen = new PhlexGenerator(analysis, phlexTemplate);
-    const phlexCode = await phlexGen.generate();
+    // Load ViewComponent templates
+    const rbTemplate = await loadTemplate(CONFIG.templates.viewComponent, 'viewComponent');
+    const erbTemplate = await loadTemplate(CONFIG.templates.viewComponentErb, 'viewComponentErb');
+    const cssTemplate = await loadTemplate(CONFIG.templates.viewComponentCss, 'viewComponentCss');
 
+    // Generate ViewComponent files
+    const vcGen = new ViewComponentGenerator(analysis, rbTemplate, erbTemplate, cssTemplate);
+    const componentFiles = await vcGen.generate();
+
+    // Generate Stimulus controller
     const stimulusTemplate = await loadTemplate(CONFIG.templates.stimulus, 'stimulus');
     const stimulusGen = new StimulusGenerator(analysis, stimulusTemplate);
     const stimulusCode = await stimulusGen.generate();
 
     if (this.options.dryRun) {
-      this.printDryRun(phlexCode, stimulusCode);
+      this.printDryRun(componentFiles, stimulusCode);
     } else {
-      await this.saveComponentOutput(componentName, phlexCode, stimulusCode);
+      await this.saveComponentOutput(componentName, componentFiles, stimulusCode);
       if (this.options.updateDocs) {
         await this.appendMappingDoc(analysis);
       }
@@ -670,7 +786,7 @@ class CLI {
         console.log(modelCode);
         console.log('');
       } else {
-        const outputPath = path.join(CONFIG.paths.output, 'models', `${toSnakeCase(model.name)}.rb`);
+        const outputPath = path.join(CONFIG.paths.output.models, `${toSnakeCase(model.name)}.rb`);
         await ensureDir(path.dirname(outputPath));
         await fs.writeFile(outputPath, modelCode);
         console.log(`✓ Generated ${model.name} model`);
@@ -700,28 +816,54 @@ class CLI {
     console.log('✅ All components generated!');
   }
 
-  async saveComponentOutput(componentName, phlexCode, stimulusCode) {
-    const phlexPath = path.join(CONFIG.paths.output, 'views', 'app', `${toSnakeCase(componentName)}.rb`);
-    const stimulusPath = path.join(CONFIG.paths.output, 'javascript', 'controllers', `${toKebabCase(componentName)}_controller.js`);
+  async saveComponentOutput(componentName, componentFiles, stimulusCode) {
+    const snakeName = toSnakeCase(componentName);
+    const kebabName = toKebabCase(componentName);
 
-    await ensureDir(path.dirname(phlexPath));
+    // ViewComponent files (sidecar pattern)
+    const componentDir = path.join(CONFIG.paths.output.components, snakeName);
+    const rbPath = path.join(componentDir, `${snakeName}_component.rb`);
+    const erbPath = path.join(componentDir, `${snakeName}_component.html.erb`);
+
+    // ITCSS-structured CSS (components layer)
+    const cssPath = path.join(CONFIG.paths.output.stylesheets, 'components', `_${kebabName}.css`);
+
+    // Stimulus controller
+    const stimulusPath = path.join(CONFIG.paths.output.stimulus, `${kebabName}_controller.js`);
+
+    // Ensure directories exist
+    await ensureDir(componentDir);
+    await ensureDir(path.dirname(cssPath));
     await ensureDir(path.dirname(stimulusPath));
 
-    await fs.writeFile(phlexPath, phlexCode);
+    // Write files
+    await fs.writeFile(rbPath, componentFiles.rb);
+    await fs.writeFile(erbPath, componentFiles.erb);
+    await fs.writeFile(cssPath, componentFiles.css);
     await fs.writeFile(stimulusPath, stimulusCode);
 
-    console.log(`✓ Saved Phlex component: ${phlexPath}`);
+    console.log(`✓ Saved ViewComponent: ${rbPath}`);
+    console.log(`✓ Saved ERB template: ${erbPath}`);
+    console.log(`✓ Saved BEM styles: ${cssPath}`);
     console.log(`✓ Saved Stimulus controller: ${stimulusPath}`);
   }
 
   async appendMappingDoc(analysis) {
+    const snakeName = toSnakeCase(analysis.name);
+    const kebabName = toKebabCase(analysis.name);
+
     const lines = [
-      `- React component: ${analysis.name}`,
+      `## ${analysis.name}`,
+      `- **React component:** \`${analysis.name}\``,
       `  - Props: ${analysis.props.map(p => p.name).join(', ') || 'n/a'}`,
       `  - State: ${analysis.state.map(s => s.name).join(', ') || 'n/a'}`,
       `  - Hooks: ${analysis.hooks.join(', ') || 'n/a'}`,
       `  - Icons: ${analysis.icons.join(', ') || 'n/a'}`,
-      `  - Output: views/app/${toSnakeCase(analysis.name)}.rb, javascript/controllers/${toKebabCase(analysis.name)}_controller.js`,
+      `- **ViewComponent:** \`app/components/${snakeName}/${snakeName}_component.rb\``,
+      `- **ERB Template:** \`app/components/${snakeName}/${snakeName}_component.html.erb\``,
+      `- **BEM Styles:** \`app/assets/stylesheets/components/_${kebabName}.css\``,
+      `- **Stimulus:** \`app/javascript/controllers/${kebabName}_controller.js\``,
+      `- **RubyUI usage:** [Document which RubyUI components to use]`,
       ''
     ].join('\n');
 
@@ -730,16 +872,26 @@ class CLI {
     console.log(`✓ Updated mapping log: ${CONFIG.paths.mappingLog}`);
   }
 
-  printDryRun(phlexCode, stimulusCode) {
-    console.log('=== Phlex Component ===');
-    console.log(phlexCode);
+  printDryRun(componentFiles, stimulusCode) {
+    console.log('=== ViewComponent (Ruby) ===');
+    console.log(componentFiles.rb);
+    console.log('\n=== ViewComponent (ERB Template) ===');
+    console.log(componentFiles.erb);
+    console.log('\n=== BEM Styles (CSS) ===');
+    console.log(componentFiles.css);
     console.log('\n=== Stimulus Controller ===');
     console.log(stimulusCode);
   }
 
   showHelp() {
     console.log(`
-Rails Component Generator
+Rails Component Generator (ViewComponent + ITCSS/BEM)
+
+Generates Rails shadow artifacts from React/TypeScript components:
+- ViewComponent classes with ERB templates
+- BEM-structured CSS files (ITCSS components layer)
+- Stimulus controllers
+- ActiveRecord models (from TypeScript interfaces)
 
 Usage:
   node scripts/generate_rails_components.js [options]
@@ -751,6 +903,23 @@ Options:
   --dry-run            Preview output without writing files
   --update-docs        Append mapping info to docs/react_to_rails.md
   --help, -h           Show this help message
+
+Output Structure:
+  rails_generated/
+    app/
+      components/          # ViewComponent (sidecar pattern)
+        <name>/
+          <name>_component.rb
+          <name>_component.html.erb
+      assets/
+        stylesheets/
+          components/      # ITCSS components layer (BEM)
+            _<name>.css
+      javascript/
+        controllers/       # Stimulus controllers
+          <name>_controller.js
+      models/              # ActiveRecord models
+        <name>.rb
 `);
   }
 }
@@ -776,7 +945,7 @@ if (require.main === module) {
 
 module.exports = {
   ComponentAnalyzer,
-  PhlexGenerator,
+  ViewComponentGenerator,
   StimulusGenerator,
   ModelGenerator,
   CLI

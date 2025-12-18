@@ -1,6 +1,12 @@
-# React SPA to Rails/Phlex/Hotwire Component Mapping Template
+# React SPA to Rails/ViewComponent/Hotwire Component Mapping Template
 
-**Purpose:** This document provides a structured approach for lovable.dev to translate and map React single-page applications (SPAs) effectively into a Ruby on Rails application using Phlex components (via RubyUI) and Hotwire for dynamic, interactive user experiences. The goal is to clearly document component structures, data flows, and state management strategies, enabling efficient and accurate Rails implementations.
+**Purpose:** This document provides a structured approach for lovable.dev to translate and map React single-page applications (SPAs) effectively into a Ruby on Rails application using ViewComponent (with RubyUI for UI primitives) and Hotwire for dynamic, interactive user experiences. The goal is to clearly document component structures, data flows, and state management strategies, enabling efficient and accurate Rails implementations.
+
+**Architecture:**
+- **ViewComponent + ERB** for custom application components
+- **RubyUI (Phlex)** for pre-built UI primitives (buttons, cards, modals)
+- **ITCSS + BEM + Tailwind** for CSS architecture
+- **Hotwire (Turbo + Stimulus)** for interactivity
 
 Please create this document as `docs/react_to_rails_prompt.md` in the root folder. Additionally, continually update and maintain a separate, practical document as `docs/react_to_rails.md` based on this template for specific React SPA to Rails mappings.
 
@@ -9,10 +15,11 @@ Please create this document as `docs/react_to_rails_prompt.md` in the root folde
 By following this template, lovable.dev will have a comprehensive reference document to:
 
 - Understand React component structures and their functionalities.
-- Clearly map each React component to equivalent Rails/Phlex components.
+- Clearly map each React component to equivalent Rails/ViewComponent + RubyUI components.
 - Identify and manage state, data flow, and API interactions effectively.
 - Design accurate Rails database schemas and migrations.
 - Utilize Hotwire effectively to replicate dynamic interactions from React SPAs.
+- Apply consistent ITCSS + BEM CSS architecture.
 
 ## Sections:
 
@@ -33,7 +40,11 @@ For each major React component:
   - **2.X.4. Rendering Logic:** (Describe rendering conditions clearly.)
   - **2.X.5. User Interactions:** (Detail user interactions, events, and outcomes.)
   - **2.X.6. Data Dependencies:** (Highlight external dependencies clearly.)
-  - **2.X.7. Potential Phlex/RubyUI Equivalent:** (Suggest Phlex components clearly and practically.)
+  - **2.X.7. Potential ViewComponent/RubyUI Equivalent:**
+    - ViewComponent class and ERB template location
+    - RubyUI components to use (buttons, cards, etc.)
+    - BEM block name and CSS file location
+    - Stimulus controller requirements
 
 **3. Data Flow and State Management:**
 
@@ -65,13 +76,20 @@ For each major React component:
 - **6.2. List of Routes and Corresponding Components:** (Clearly map routes to components.)
 - **6.3. Navigation Mechanisms:** (Clearly describe how navigation is handled.)
 
-**7. Considerations for Rails/Phlex/Hotwire Implementation:**
+**7. Considerations for Rails/ViewComponent/Hotwire Implementation:**
 
-- **7.1. Potential Phlex Component Mapping:** (Clearly map React components to Phlex.)
+- **7.1. ViewComponent Mapping:**
+  - Map React components to ViewComponent classes
+  - Identify which RubyUI primitives to use (buttons, cards, modals, form controls)
+  - Define BEM block names and CSS structure
 - **7.2. Hotwire Integration Strategy:** (Clearly explain dynamic interaction strategies.)
 - **7.3. Server-Side Data Handling:** (Clearly outline data handling methods.)
 - **7.4. Form Handling in Rails:** (Clearly detail form handling and interactions.)
 - **7.5. State Management in Rails/Hotwire:** (Clearly describe Rails state management approaches.)
+- **7.6. CSS Architecture:**
+  - ITCSS layer organization
+  - BEM naming for components
+  - Tailwind utility integration
 
 **8. Diagramming Guidance**
 
@@ -106,11 +124,16 @@ Include visual diagrams to clarify interactions or data flows:
 
 ## Glossary
 
-| Term             | Meaning                                           |
-| ---------------- | ------------------------------------------------- |
-| **Phlex**        | Ruby DSL for creating HTML components             |
-| **Hotwire**      | Rails library for dynamic partial page updates    |
-| **Stimulus**     | JavaScript controller framework within Hotwire    |
-| **Turbo Frame**  | Container for dynamically updating HTML fragments |
-| **Turbo Stream** | Server-driven DOM updates via WebSockets or HTTP  |
-| **ERD**          | Entity-Relationship Diagram                       |
+| Term             | Meaning                                                    |
+| ---------------- | ---------------------------------------------------------- |
+| **ViewComponent**| Ruby gem for building reusable view components with ERB    |
+| **RubyUI**       | Pre-built UI component library built on Phlex              |
+| **Phlex**        | Ruby DSL for creating HTML components (used by RubyUI)     |
+| **ITCSS**        | Inverted Triangle CSS - architecture for organizing styles |
+| **BEM**          | Block Element Modifier - CSS naming convention             |
+| **Hotwire**      | Rails library for dynamic partial page updates             |
+| **Stimulus**     | JavaScript controller framework within Hotwire             |
+| **Turbo Frame**  | Container for dynamically updating HTML fragments          |
+| **Turbo Stream** | Server-driven DOM updates via WebSockets or HTTP           |
+| **Sidecar**      | ViewComponent pattern: `.rb` and `.html.erb` in same dir   |
+| **ERD**          | Entity-Relationship Diagram                                |

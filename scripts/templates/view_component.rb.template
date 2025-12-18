@@ -1,0 +1,25 @@
+# frozen_string_literal: true
+# Source: {{react_file_path}}
+
+class {{component_name}}Component < ApplicationComponent
+  {{prop_attrs}}
+
+  def initialize({{props}})
+    {{prop_assignments}}
+  end
+
+  # BEM helper for this component
+  def block_class
+    "{{bem_block}}"
+  end
+
+  # Suggested RubyUI components to consider:
+  # - RubyUI::Button for actions
+  # - RubyUI::Card for containers
+  # - RubyUI::Badge for tags/status
+  # - RubyUI::Avatar for user images
+  # - RubyUI::Input, RubyUI::Select for form controls
+  #
+  # Example usage in ERB template:
+  # <%= render RubyUI::Button.new(variant: :primary) { "Click me" } %>
+end

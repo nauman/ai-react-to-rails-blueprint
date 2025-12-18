@@ -1,0 +1,25 @@
+# frozen_string_literal: true
+
+# Base class for all ViewComponents
+# Provides integration helpers for RubyUI and common utilities
+class ApplicationComponent < ViewComponent::Base
+  # BEM class helper
+  # Usage: bem_class("element", "modifier")
+  # Returns: "component-name__element--modifier"
+  def bem_class(element = nil, modifier = nil)
+    base = component_name
+    return base unless element
+
+    result = "#{base}__#{element}"
+    modifier ? "#{result} #{result}--#{modifier}" : result
+  end
+
+  private
+
+  def component_name
+    self.class.name
+      .underscore
+      .gsub("_component", "")
+      .dasherize
+  end
+end

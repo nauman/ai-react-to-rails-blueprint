@@ -1,0 +1,25 @@
+/* Source: {{react_file_path}} */
+/* ITCSS Layer: components */
+/* BEM Block: {{bem_block}} */
+
+.{{bem_block}} {
+  /* Block base styles */
+  /* Use Tailwind for spacing/colors, BEM for structure */
+}
+
+/* Elements */
+.{{bem_block}}__header {
+}
+
+.{{bem_block}}__content {
+}
+
+.{{bem_block}}__footer {
+}
+
+/* Modifiers */
+.{{bem_block}}--active {
+}
+
+.{{bem_block}}--disabled {
+}

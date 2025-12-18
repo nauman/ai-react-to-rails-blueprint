@@ -34,7 +34,9 @@ docs/
     ├── api_interactions.md
     ├── database_schema.md
     ├── routing.md
-    └── rails_phlex_hotwire_considerations.md
+    ├── rails_viewcomponent_hotwire_considerations.md
+    ├── itcss_bem_guide.md
+    └── viewcomponent_rubyui_guide.md
 ```
 
 ---
@@ -66,7 +68,15 @@ When generating code or documentation, adhere to these guidelines:
 
 - Store actual React MVP code directly in the project's root directory.
 - Place conceptual Rails documentation within `docs/rails_structure/`, ensuring it aligns with Rails conventions.
-- Clearly document potential Rails/Phlex equivalents for every React component in `docs/rails_structure/views.md`.
+- Clearly document potential Rails/ViewComponent equivalents for every React component in `docs/rails_structure/views.md`.
+- **Component Architecture:**
+  - Use **ViewComponent + ERB** for custom application components
+  - Use **RubyUI (Phlex)** for pre-built UI primitives (buttons, cards, modals, form controls)
+  - Follow the **sidecar pattern** for ViewComponent file organization
+- **CSS Architecture:**
+  - Use **ITCSS** (Inverted Triangle CSS) for stylesheet organization
+  - Use **BEM** (Block Element Modifier) naming for component styles
+  - Retain **Tailwind** as the utility layer
 - Employ naming conventions in React that intuitively suggest their future Rails counterparts.
 - When implementing interactions in React, conceptualize corresponding Stimulus controllers, documenting their logic in `docs/rails_structure/stimulus.md`.
 - Map React data handling conceptually to Rails models and controllers, documenting in:
@@ -80,10 +90,11 @@ When generating code or documentation, adhere to these guidelines:
 For each documentation task:
 
 - Maintain clarity and readability through structured markdown formatting and well-defined code blocks.
-- Include conceptual Rails, Phlex, and Hotwire code examples.
+- Include conceptual Rails, ViewComponent, RubyUI, and Hotwire code examples.
 - Provide clear visual diagrams illustrating data flows and component interactions.
 - Offer detailed conceptual examples and implementations for Stimulus controllers.
 - Include Ruby on Rails conceptual code samples for model definitions, controllers, and helpers.
+- Document BEM class naming for each component (e.g., `.user-card`, `.user-card__header`, `.user-card--featured`).
 
 ---
 

@@ -1,0 +1,22 @@
+<%# Source: {{react_file_path}} %>
+<%# BEM Block: {{bem_block}} %>
+
+<div class="{{bem_block}}" data-controller="{{stimulus_controller}}">
+  <%#
+    TODO: Convert React JSX to ERB
+
+    RubyUI components available:
+    - <%= render RubyUI::Button.new(variant: :primary) { "Action" } %>
+    - <%= render RubyUI::Card.new { ... } %>
+    - <%= render RubyUI::Badge.new { "Status" } %>
+    - <%= render RubyUI::Avatar.new(src: url, alt: name) %>
+
+    Use BEM naming for custom elements:
+    - {{bem_block}}__header
+    - {{bem_block}}__content
+    - {{bem_block}}__footer
+    - {{bem_block}}--modifier
+  %>
+
+  {{html_structure}}
+</div>

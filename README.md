@@ -1,7 +1,7 @@
 # MVP to Rails Blueprint
 
-A developer-first system to build MVPs using tools like [Lovable.dev](https://lovable.dev) and [V0.dev](https://v0.dev), 
-while maintaining a structured Rails blueprint in parallel for clean, scalable migration to Ruby on Rails using Phlex and Hotwire.
+A developer-first system to build MVPs using tools like [Lovable.dev](https://lovable.dev) and [V0.dev](https://v0.dev),
+while maintaining a structured Rails blueprint in parallel for clean, scalable migration to Ruby on Rails using ViewComponent, RubyUI, and Hotwire.
 
 ---
 
@@ -31,7 +31,9 @@ mvp-rails-blueprint/
 │       ├── api_interactions.md
 │       ├── database_schema.md
 │       ├── routing.md
-│       └── rails_phlex_hotwire_considerations.md
+│       ├── rails_viewcomponent_hotwire_considerations.md
+│       ├── itcss_bem_guide.md
+│       └── viewcomponent_rubyui_guide.md
 ├── .gitignore
 ├── README.md
 ├── LICENSE
@@ -46,7 +48,9 @@ mvp-rails-blueprint/
    - Use Rails-inspired naming where possible (e.g., `PostCard`, `UserSettingsForm`).
 
 2. **Document the Rails-side mapping**
-   - For each new React component, document its Rails/Phlex equivalent under `docs/rails_structure/views.md`.
+   - For each new React component, document its Rails/ViewComponent equivalent under `docs/rails_structure/views.md`.
+   - Use RubyUI components for pre-built UI primitives (buttons, cards, modals).
+   - Use ViewComponent + ERB for custom business logic components.
    - If the component uses data, consider its future `model` and `controller` in Rails, and document that too.
 
 3. **Use schema.json**
