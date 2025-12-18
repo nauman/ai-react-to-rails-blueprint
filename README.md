@@ -16,27 +16,36 @@ While developers use tools like Lovable.dev or v0.dev to design React-based MVPs
 
 ```bash
 mvp-rails-blueprint/
-├── src/                         # React MVP code lives here
-├── docs/                        # Rails conceptual mapping
-│   ├── context.md               # Guidelines and system instructions
-│   ├── react_to_rails_template.md # Template: React to Rails mapping
-│   ├── rails_directory_mapping_template.md # Template: Rails structure mapping
-│   ├── requirements.md          # MVP product ideation and notes
-│   ├── schema.json              # Centralized content + structure model
-│   └── rails_structure/         # Conceptual Rails equivalents
+├── src/                              # React MVP code lives here
+├── docs/                             # Rails conceptual mapping
+│   ├── context.md                    # Guidelines and system instructions
+│   ├── react_to_rails.md             # Component mapping log
+│   ├── react_to_rails_template.md    # Template: React to Rails mapping
+│   ├── rails_component_generator.md  # Generator usage guide
+│   ├── rails_shadow_workflow.md      # Shadow workflow checklist
+│   ├── rails_directory_mapping_template.md
+│   ├── schema.json                   # Centralized content + structure
+│   └── rails_structure/              # Conceptual Rails equivalents
 │       ├── models.md
-│       ├── views.md
+│       ├── views.md                  # ViewComponent + RubyUI patterns
 │       ├── controllers.md
 │       ├── stimulus.md
 │       ├── api_interactions.md
 │       ├── database_schema.md
 │       ├── routing.md
 │       ├── rails_viewcomponent_hotwire_considerations.md
-│       ├── itcss_bem_guide.md
+│       ├── itcss_bem_guide.md        # ITCSS + BEM CSS architecture
 │       └── viewcomponent_rubyui_guide.md
+├── scripts/                          # Automation tools
+│   ├── generate_rails_components.js  # React → Rails generator
+│   └── templates/                    # Generator templates
+│       ├── view_component.rb.template
+│       ├── view_component.html.erb.template
+│       ├── view_component.css.template
+│       └── application_component.rb.template
 ├── .gitignore
 ├── README.md
-├── LICENSE
+└── LICENSE
 ```
 
 ---
